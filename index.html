@@ -33,6 +33,7 @@
       <nav class="nav-menu">
         <a href="#experience" class="nav-link" data-i18n="nav.experience">Опыт работы</a>
         <a href="#projects" class="nav-link" data-i18n="nav.projects">Проекты</a>
+        <a href="#sandbox" class="nav-link" data-i18n="nav.sandbox">Песочница 🎮</a>
         <a href="#stack" class="nav-link" data-i18n="nav.stack">Стек</a>
         <a href="#education" class="nav-link" data-i18n="nav.education">Наука & ВАК</a>
         <a href="#contacts" class="nav-link" data-i18n="nav.contacts">Контакты</a>
@@ -64,7 +65,7 @@
         </div>
         
         <h1 class="hero-title">
-          <span class="title-sub" data-i18n="hero.greeting">Привет, я</span>
+          <span class="title-sub" data-i18n="hero.greeting">Здравствуйте! Я —</span>
           <span class="gradient-text">Кирилл Макаров</span>
         </h1>
         
@@ -316,6 +317,35 @@
           </div>
         </div>
 
+        <!-- PROJECT: DP STUDIO (AUDIO COMPRESSION DSP) -->
+        <div class="project-card" data-category="desktop">
+          <div class="project-header">
+            <div>
+              <h3 class="project-title">DP Studio — Многоагентная утилита сжатия звука без спектральных преобразований (C#, WPF, .NET 7)</h3>
+              <p class="project-sub font-mono">Кусочно-линейная аппроксимация ОЗД и кодирование Хаффмана (Сжатие до 13–14 раз)</p>
+            </div>
+          </div>
+          <p class="project-desc">
+            Разработанный с нуля программный комплекс сжатия аудиосигналов (MainWindow.xaml.cs, SignalDisplay.cs, SignalProcessor.cs, Compressor.cs), заменяющий ресурсоемкие спектральные преобразования Фурье (БПФ) и вейвлет-анализ на быструю рекурсивную дихотомическую аппроксимацию звуковой волны отрезками прямых по параметрам dmax и dxmax с фильтрацией высокочастотного шума и распределением кадров по потокам-агентам. Обеспечивает сжатие WAV-файлов в собственный формат .dp в 13–14 раз (с 224 КБ до 17 КБ) и повышает сжимаемость аудиоданных стандартными архиваторами (WinRAR/7-Zip) в 4 раза.
+          </p>
+          <div class="project-gallery-grid" style="grid-template-columns: 1fr;">
+            <div class="gallery-item" onclick="openLightbox('assets/certs/DP Studio.jpg', 'DP Studio — Интерфейс многоагентного сжатия звука и осциллограф')">
+              <img src="assets/certs/DP Studio.jpg" alt="DP Studio Сжатие звука">
+              <span class="gallery-caption">📊 Осциллограф и метрики .DP (Открыть)</span>
+            </div>
+          </div>
+          <div class="project-footer">
+            <div class="tech-tags">
+              <span>C# / .NET 7</span><span>WPF / XAML</span><span>DSP Audio</span><span>Huffman Coding</span><span>Multi-Agent Threads</span><span>Custom .DP Format</span>
+            </div>
+            <div class="project-actions">
+              <a href="#sandbox" class="btn-sm btn-primary">
+                Демо в песочнице ➔
+              </a>
+            </div>
+          </div>
+        </div>
+
         <!-- PROJECT 2: KRUSTY RESTAURANT TYCOON -->
         <div class="project-card" data-category="gamedev">
           <div class="project-header">
@@ -432,6 +462,190 @@
     </div>
   </section>
 
+  <!-- INTERACTIVE LIVE SANDBOX -->
+  <section id="sandbox" class="sandbox-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag font-mono">// INTERACTIVE LIVE SANDBOX</span>
+        <h2 class="section-title">🎮 Интерактивная Инженерная Песочница (Потыкай вживую)</h2>
+        <p class="section-desc">
+          Протестируйте мои ключевые инженерные разработки, алгоритмы сжатия и высоконагруженные сервисы в реальном времени прямо на этой странице без установки стороннего ПО.
+        </p>
+      </div>
+
+      <!-- Sandbox Tabs Navigation -->
+      <div class="sandbox-tabs">
+        <button class="sandbox-tab-btn active" data-tab="tab-dp-studio">
+          <span class="tab-icon">🎵</span>
+          <span>Симулятор DP Studio (Алгоритм МИРЭА)</span>
+        </button>
+        <button class="sandbox-tab-btn" data-tab="tab-telegram-bot">
+          <span class="tab-icon">🤖</span>
+          <span>Эмулятор Telegram-ботов (Daos.V & BSD)</span>
+        </button>
+        <button class="sandbox-tab-btn" data-tab="tab-krusty-game">
+          <span class="tab-icon">🍔</span>
+          <span>Мини-игра: Krusty Cyber Catcher</span>
+        </button>
+      </div>
+
+      <!-- TAB 1: DP Studio Audio Compression Simulator -->
+      <div id="tab-dp-studio" class="sandbox-panel active">
+        <div class="sandbox-card">
+          <div class="dp-grid">
+            <div class="dp-controls-col">
+              <div class="dp-control-group">
+                <div class="dp-label-row">
+                  <span>Порог отклонения амплитуды (dmax):</span>
+                  <span id="dp-dmax-val" class="dp-val-badge">1024</span>
+                </div>
+                <input type="range" id="dp-dmax-slider" class="dp-slider" min="10" max="2048" value="1024" step="10">
+              </div>
+
+              <div class="dp-control-group">
+                <div class="dp-label-row">
+                  <span>Мин. длина сегмента (dxmax):</span>
+                  <span id="dp-dxmax-val" class="dp-val-badge">64</span>
+                </div>
+                <input type="range" id="dp-dxmax-slider" class="dp-slider" min="4" max="128" value="64" step="2">
+              </div>
+
+              <div class="dp-control-group">
+                <div class="dp-label-row">
+                  <span>Режим аппроксимации:</span>
+                </div>
+                <div class="dp-mode-btns">
+                  <button class="dp-mode-btn active" data-mode="dichotomy">Дихотомическое деление (DP Studio)</button>
+                  <button class="dp-mode-btn" data-mode="continuous">Сквозное спрямление</button>
+                  <button class="dp-mode-btn" data-mode="pairwise">Попарное спрямление</button>
+                </div>
+              </div>
+
+              <button id="btn-play-audio" class="btn-primary-glow" style="justify-content: center; padding: 0.65rem 1rem;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                <span>🔊 Прослушать тест сигнала (Web Audio API)</span>
+              </button>
+
+              <div class="dp-metrics-grid">
+                <div class="dp-metric-tile">
+                  <div class="dp-metric-label">Исходный WAV</div>
+                  <div class="dp-metric-val c-green">224 КБ</div>
+                </div>
+                <div class="dp-metric-tile">
+                  <div class="dp-metric-label">Линейный .DP</div>
+                  <div id="metric-dp-size" class="dp-metric-val c-purple">~31.2 КБ</div>
+                </div>
+                <div class="dp-metric-tile">
+                  <div class="dp-metric-label">Архив / Хаффман</div>
+                  <div id="metric-zip-size" class="dp-metric-val c-cyan">~16.9 КБ</div>
+                </div>
+                <div class="dp-metric-tile">
+                  <div class="dp-metric-label">Коэффициент</div>
+                  <div id="metric-ratio" class="dp-metric-val c-amber">до 13.2x</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="dp-canvas-col">
+              <div class="dp-oscilloscope-box">
+                <canvas id="dpOscilloscopeCanvas"></canvas>
+                <div class="dp-canvas-legend">
+                  <div class="legend-item">
+                    <span class="legend-dot green"></span>
+                    <span>Исходный сигнал WAV (224 КБ)</span>
+                  </div>
+                  <div class="legend-item">
+                    <span class="legend-dot purple"></span>
+                    <span>Кусочно-линейная аппроксимация .DP</span>
+                  </div>
+                  <div id="dp-points-count" class="font-mono c-cyan" style="font-size: 0.76rem;">
+                    Опорных хорд: 48
+                  </div>
+                </div>
+              </div>
+              <p style="font-size: 0.85rem; color: var(--text-dim); margin: 0; line-height: 1.5;">
+                ⚡ <em>Алгоритм рекурсивно находит точку максимального отклонения сигнала от стягивающего отрезка. Если отклонение больше dmax, отрезок дробится на два новых сегмента. Это исключает тяжелое БПФ и повышает сжимаемость WAV архиватором в 4 раза.</em>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2: Telegram Bot Live Emulator -->
+      <div id="tab-telegram-bot" class="sandbox-panel">
+        <div class="tg-emulator-wrapper">
+          <div class="tg-header">
+            <div class="tg-bot-avatar">🤖</div>
+            <div class="tg-bot-info">
+              <span class="tg-bot-name">Daos.V Catalog & BSD Service Bot</span>
+              <span class="tg-bot-status">● онлайн (4.46M+ артикулов / TON / VLESS)</span>
+            </div>
+          </div>
+
+          <div id="tg-chat-history" class="tg-chat-history">
+            <div class="tg-msg bot">
+              Здравствуйте! Я демонстрационный эмулятор Telegram-ботов <strong>Daos.V</strong> и <strong>BSD Store</strong>.
+              <br><br>
+              Выберите команду из инлайн-меню ниже, чтобы протестировать отклик базы данных, генерацию защищенного ключа или вызов Fragment API:
+              <span class="tg-msg-time">12:00</span>
+            </div>
+          </div>
+
+          <div class="tg-quick-actions">
+            <button class="tg-btn" data-action="vin">
+              <span>🚗</span> [ 🚗 Пробить VIN: WVWZZZ2KZJX014921 ]
+            </button>
+            <button class="tg-btn" data-action="part">
+              <span>⚙</span> [ ⚙ Найти артикул: 06A906262BR (VAG) ]
+            </button>
+            <button class="tg-btn" data-action="vpn">
+              <span>🛡</span> [ 🛡 Выдать тестовый ключ UC SHIELD ]
+            </button>
+            <button class="tg-btn" data-action="stars">
+              <span>⭐</span> [ ⭐ Автовыдача Stars (TON WalletV5R1) ]
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: Krusty Burger & Cyber Catcher Game -->
+      <div id="tab-krusty-game" class="sandbox-panel">
+        <div class="game-wrapper">
+          <div class="game-hud">
+            <div class="hud-item">
+              <span>Счет:</span> <span id="game-score" class="hud-val">0</span>
+            </div>
+            <div class="hud-item">
+              <span>Комбо:</span> <span id="game-combo" class="hud-val c-cyan">x1</span>
+            </div>
+            <div class="hud-item">
+              <span>Жизни:</span> <span id="game-lives" class="hud-val">❤️❤️❤️</span>
+            </div>
+            <div class="hud-plan-bar">
+              <span>План на ★★★:</span>
+              <div class="plan-progress-track">
+                <div id="plan-fill" class="plan-progress-fill"></div>
+              </div>
+              <span id="plan-target" class="font-mono" style="font-size: 0.75rem; color: #ffd700;">0/200</span>
+            </div>
+          </div>
+
+          <canvas id="gameCanvas"></canvas>
+
+          <div class="game-controls-bar">
+            <div style="font-size: 0.85rem; color: var(--text-muted);">
+              🎮 <strong>Управление:</strong> Водите мышкой по экрану или пальцем по тачскрину. Ловите 🍔, 🦀, ⭐ и уворачивайтесь от красных DDoS 👾 и багов 🐛!
+            </div>
+            <button id="btn-game-toggle" class="btn-primary-glow btn-sm">
+              Начать смену / Рестарт
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
   <!-- TECH STACK SECTION -->
   <section id="stack" class="section">
     <div class="container">
@@ -523,26 +737,74 @@
       </div>
 
       <div class="edu-grid">
+        <!-- CARD 1: Аспирантура / Соискательство (2024–2026) -->
         <div class="edu-card">
-          <div class="edu-badge font-mono">ДИССЕРТАЦИОННОЕ ИССЛЕДОВАНИЕ</div>
+          <div class="edu-badge font-mono">АСПИРАНТУРА / СОИСКАТЕЛЬСТВО (2024–2026)</div>
           <h3 class="edu-title">Специальность 2.3.6 — Методы и системы защиты информации, информационная безопасность</h3>
           <p class="edu-meta font-mono">Группа ДАИИУС-301 • Информационно-измерительные и управляющие системы</p>
           <p class="edu-desc">
             Тема исследования: <strong>«Специфика методов обеспечения информационной безопасности в сетях Интернета вещей»</strong>. 
-            Исследование включает математическое и программное моделирование методов адаптивной криптографии (EAAC), устойчивости протоколов связи к аномальным нагрузкам 
-            и построение трехкаскадных интеллектуальных граничных шлюзов на базе eBPF/XDP.
+            Разработка энергозависимой адаптивной криптографии (EAAC: ChaCha8, PRESENT-80, Ascon-128), 3-каскадного интеллектуального граничного шлюза (фильтр <code>eBPF/XDP</code> ядра Linux + поведенческие профили <code>MUD</code> RFC 8520) и программного комплекса низкоуровневой верификации доверенной среды мобильных терминалов управления (Android Ultimate Inspector v4.3.0).
           </p>
         </div>
 
+        <!-- CARD 2: Магистратура РТУ МИРЭА (2022–2024) -->
         <div class="edu-card">
-          <div class="edu-badge font-mono badge-green">ПУБЛИКАЦИИ И СТАТЬИ ВАК</div>
-          <h3 class="edu-title">Экспериментальные исследования протоколов безопасности в гетерогенных сетях IoT</h3>
-          <p class="edu-meta font-mono">Рецензируемые издания списка ВАК РФ</p>
-          <ul class="edu-list">
-            <li>Исследование энергоэффективности и отказоустойчивости стандартных криптопротоколов (TLS 1.3, DTLS, MQTT-SN) на энергодефицитных микроконтроллерах.</li>
-            <li>Синтез гибридного алгоритма энергозависимой криптографии (ChaCha8, PRESENT-80, Ascon-128) с динамическим переключением шифров по уровню заряда АКБ.</li>
-            <li>Аппаратная верификация и отражение распределенных сетевых атак через профили MUD (Manufacturer Usage Description) и фильтры ядра XDP.</li>
+          <div class="edu-badge font-mono badge-green">МАГИСТРАТУРА РТУ МИРЭА (2022–2024)</div>
+          <h3 class="edu-title">09.04.02 — Информационные системы и технологии</h3>
+          <p class="edu-meta font-mono">РТУ МИРЭА • Институт кибербезопасности и цифровых технологий (ИКЦТ)</p>
+          <p class="edu-desc">
+            Выпускная квалификационная работа магистра: <strong>«Разработка многоагентной утилиты сжатия звука (DP Studio)»</strong>. Создание алгоритма рекурсивной дихотомической кусочно-линейной аппроксимации без спектральных преобразований. 
+            Доклад на Межвузовском международном конгрессе «Высшая школа: научные исследования» (Москва, 2024 г.) на тему <em>«Анализ потенциала эффективности многоагентных систем сжатия речевого сигнала»</em>.
+          </p>
+        </div>
+
+        <!-- CARD 3: Бакалавриат РТУ МИРЭА (2017–2022) -->
+        <div class="edu-card">
+          <div class="edu-badge font-mono">БАКАЛАВРИАТ РТУ МИРЭА (2017–2022)</div>
+          <h3 class="edu-title">09.03.02 — Информационные системы и технологии</h3>
+          <p class="edu-meta font-mono">Кафедра КБ-5 «Аппаратного, программного и математического обеспечения ВС» (БСБО-13-18)</p>
+          <p class="edu-desc">
+            Профиль: «Аппаратное, программное и математическое обеспечение безопасности информационных систем». 
+            ВКР бакалавра: <strong>«Утилита сжатия звука»</strong> (научный руководитель — д.т.н., профессор Н. Н. Холин; защищена на оценку <strong>«Хорошо»</strong>, оценка самостоятельности и творческого участия — <strong>«5 / Отлично»</strong>, оригинальность текста — <strong>80%</strong>).
+          </p>
+        </div>
+
+        <!-- CARD 4: Галерея Дипломов, Сертификатов и ВАК (Full Width) -->
+        <div class="edu-card full-width">
+          <div class="edu-badge font-mono badge-green">НАГРАДЫ, ДИПЛОМЫ И ПУБЛИКАЦИИ ВАК</div>
+          <h3 class="edu-title">Галерея Дипломов, Сертификатов и Публикаций ВАК</h3>
+          <p class="edu-meta font-mono">Официальные свидетельства научно-исследовательской деятельности и защиты результатов</p>
+          
+          <ul class="edu-list" style="margin-bottom: 1.5rem;">
+            <li>🏆 <strong>Диплом Межвузовского международного конгресса «Высшая школа: научные исследования»</strong> (г. Москва, 04.04.2024) — доклад «Анализ потенциала эффективности многоагентных систем сжатия речевого сигнала».</li>
+            <li>📜 <strong>Сертификат VI Международной научно-практической конференции «Инновационные направления интеграции науки, образования и производства»</strong> (ФГБОУ ВО «КГМТУ», Десятилетие науки и технологий, г. Феодосия, 11–14 мая 2025 г.).</li>
+            <li>📜 <strong>Сертификат VII Международной научно-практической конференции «Актуальные проблемы техники, технологии и образования»</strong> (ФГБОУ ВО «КГМТУ», г. Сочи / Адлер, ФТ Сириус, 23–27 января 2026 г.).</li>
+            <li>📄 <strong>Статьи в журналах перечня ВАК РФ (специальность 2.3.6)</strong>: по энергоэффективности протоколов безопасности IoT и верификации доверенной среды мобильных терминалов управления.</li>
           </ul>
+
+          <!-- Thumbnails with Lightbox preview -->
+          <div class="cert-gallery-grid">
+            <div class="cert-item" onclick="openLightbox('assets/certs/Макаров Кирилл Вадимович3.jpg', '🏆 Диплом Межвузовского международного конгресса «Высшая школа: научные исследования» (Москва, 2024)')">
+              <img src="assets/certs/Макаров Кирилл Вадимович3.jpg" alt="Диплом конгресса Высшая школа">
+              <div class="cert-caption">🏆 Конгресс «Высшая школа» (2024)</div>
+            </div>
+
+            <div class="cert-item" onclick="openLightbox('assets/certs/Макаров Кирилл Вадимович.jpg', '📜 Сертификат VI Международной конференции (КГМТУ, Феодосия, 2025)')">
+              <img src="assets/certs/Макаров Кирилл Вадимович.jpg" alt="Сертификат VI конференции КГМТУ">
+              <div class="cert-caption">📜 КГМТУ «Интеграция науки» (2025)</div>
+            </div>
+
+            <div class="cert-item" onclick="openLightbox('assets/certs/Макаров Кирилл Вадимович2.jpg', '📜 Сертификат VII Международной конференции (КГМТУ, Сочи / Адлер, ФТ Сириус, 2026)')">
+              <img src="assets/certs/Макаров Кирилл Вадимович2.jpg" alt="Сертификат VII конференции КГМТУ Сочи Сириус">
+              <div class="cert-caption">📜 КГМТУ «Техника и образование» (2026)</div>
+            </div>
+
+            <div class="cert-item" onclick="openLightbox('assets/certs/DP Studio.jpg', '📊 Программный комплекс DP Studio (Осциллограф и метрики сжатия .DP)')">
+              <img src="assets/certs/DP Studio.jpg" alt="DP Studio комплекс сжатия звука">
+              <div class="cert-caption">📊 Комплекс DP Studio (.NET / C#)</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
